@@ -11,10 +11,10 @@ function MarqueeTrack() {
     <>
       {MARQUEE_ITEMS.map((item, i) => (
         <span key={i} className="flex items-center gap-6 shrink-0">
-          <span className="text-sm font-medium tracking-widest text-white/90 uppercase whitespace-nowrap">
+          <span className="text-base md:text-lg font-semibold tracking-widest text-white/90 uppercase whitespace-nowrap">
             {item}
           </span>
-          <span className="text-white/50 text-base">·</span>
+          <span className="text-white/50 text-lg md:text-xl">·</span>
         </span>
       ))}
     </>
@@ -23,9 +23,10 @@ function MarqueeTrack() {
 
 export default function MarqueeBanner() {
   return (
-    <div className="w-full overflow-hidden bg-[#7a1a1a] py-3">
-      <div className="flex animate-marquee w-max gap-6">
-        {/* 두 벌 렌더링 → 끊김 없는 루프 */}
+    <div className="w-full overflow-hidden bg-[#7a1a1a] py-5 md:py-7">
+      <div className="flex animate-marquee w-max gap-10">
+        <MarqueeTrack />
+        <MarqueeTrack />
         <MarqueeTrack />
         <MarqueeTrack />
       </div>
