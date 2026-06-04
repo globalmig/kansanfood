@@ -3,6 +3,7 @@ import Link from "next/link";
 
 const products = [
   {
+    id: 1,
     badge: "캠핑용",
     badgeClass: "bg-orange-500",
     src: "/images/main/item_01.jpg",
@@ -11,6 +12,7 @@ const products = [
     price: "28,000",
   },
   {
+    id: 2,
     badge: "대용량",
     badgeClass: "bg-red-500",
     src: "/images/main/item_02.jpg",
@@ -19,6 +21,7 @@ const products = [
     price: "29,000",
   },
   {
+    id: 3,
     badge: "마트 인기 상품",
     badgeClass: "bg-green-500",
     src: "/images/main/item_03.jpg",
@@ -27,6 +30,7 @@ const products = [
     price: "29,000",
   },
   {
+    id: 4,
     badge: "홈파티/가족모임",
     badgeClass: "bg-green-800",
     src: "/images/main/item_04.jpg",
@@ -40,34 +44,35 @@ const grid = [...products, ...products];
 
 export default function ProductGridSection() {
   return (
-    <section className="bg-[#F5F0E8] py-16 px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-end justify-between mb-10">
+    <section className="bg-[#F5F0E8] py-12 md:py-16">
+      <div className="max-w-7xl mx-auto px-5 md:px-10">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10">
           <div>
             <p className="flex items-center gap-2 text-zinc-500 text-xs font-medium mb-2">
               <span className="block w-6 h-px bg-zinc-500" />
               전문점 퀄리티를 집에서도 간편하게 즐겨보세요.
             </p>
-            <h2 className="text-4xl font-extrabold text-zinc-900">
+            <h2 className="text-2xl md:text-4xl font-extrabold text-zinc-900">
               언제 어디서나 즐기는 프리미엄 닭꼬치
             </h2>
           </div>
           <Link
             href="/products"
-            className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
+            className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors shrink-0"
           >
             전체 보기 →
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
           {grid.map((product, index) => (
-            <Link href="/products" key={index} className="group cursor-pointer">
+            <Link href={`/products/${product.id}`} key={index} className="group cursor-pointer">
               <div className="relative aspect-square overflow-hidden">
                 <Image
                   src={product.src}
                   alt={product.name}
                   fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <span

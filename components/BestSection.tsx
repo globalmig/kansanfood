@@ -2,10 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 const products = [
-  { rank: 1, src: "/images/main/item_01.jpg", name: "오리지널 직화", sub: "오리지널", price: "28,000" },
-  { rank: 2, src: "/images/main/item_02.jpg", name: "고추장 직화", sub: "고추장", price: "29,000" },
-  { rank: 3, src: "/images/main/item_03.jpg", name: "간장 마늘", sub: "간장마늘", price: "29,000" },
-  { rank: 4, src: "/images/main/item_04.jpg", name: "홈파티 세트", sub: "4종 파티", price: "128,000" },
+  { id: 1, rank: 1, src: "/images/main/item_01.jpg", name: "오리지널 직화", sub: "오리지널", price: "28,000" },
+  { id: 2, rank: 2, src: "/images/main/item_02.jpg", name: "고추장 직화", sub: "고추장", price: "29,000" },
+  { id: 3, rank: 3, src: "/images/main/item_03.jpg", name: "간장 마늘", sub: "간장마늘", price: "29,000" },
+  { id: 4, rank: 4, src: "/images/main/item_04.jpg", name: "홈파티 세트", sub: "4종 파티", price: "128,000" },
 ];
 
 export default function BestSection() {
@@ -30,12 +30,13 @@ export default function BestSection() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
           {products.map((product) => (
-            <Link href="/products" key={product.rank} className="group cursor-pointer">
+            <Link href={`/products/${product.id}`} key={product.rank} className="group cursor-pointer">
               <div className="relative aspect-square overflow-hidden">
                 <Image
                   src={product.src}
                   alt={product.name}
                   fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute top-0 left-0 w-7 h-7 md:w-8 md:h-8 bg-red-500 flex items-center justify-center">
