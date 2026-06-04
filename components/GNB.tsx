@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { PRODUCTS } from "@/lib/products";
 
 const NAV_ITEMS = [
   { label: "HOME", href: "/" },
@@ -179,6 +180,56 @@ export default function GNB() {
                 </svg>
               </button>
             </form>
+
+            {/* 검색 결과 */}
+            {query.trim().length > 0 && (() => {
+              const results = PRODUCTS.filter((p) => {
+                const q = query.trim().toLowerCase();
+                return (
+                  p.name.toLowerCase().includes(q) ||
+                  p.category.toLowerCase().includes(q) ||
+                  p.tags.some((t) => t.toLowerCase().includes(q))
+                );
+              });
+              return (
+                <div className="mt-2 bg-white rounded-2xl shadow-xl overflow-hidden">
+                  {results.length === 0 ? (
+                    <p className="py-6 text-center text-sm text-zinc-400">검색 결과 없음</p>
+                  ) : (
+                    <ul>
+                      {results.map((p, i) => (
+                        <li key={p.id}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              closeSearch();
+                              router.push(`/products?q=${encodeURIComponent(p.name)}`);
+                            }}
+                            className={`w-full flex items-center gap-4 px-5 py-3.5 text-left hover:bg-zinc-50 transition-colors ${
+                              i !== 0 ? "border-t border-zinc-100" : ""
+                            }`}
+                          >
+                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-zinc-100 shrink-0">
+                              <Image src={p.src} alt={p.name} fill className="object-cover" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-sm font-semibold text-zinc-900 truncate">{p.name}</p>
+                              <p className="text-xs text-zinc-400 mt-0.5">{p.category}</p>
+                            </div>
+                            {p.badge && (
+                              <span className="ml-auto shrink-0 bg-red-500 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">
+                                {p.badge}
+                              </span>
+                            )}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })()}
+
             <p className="mt-3 text-center text-sm text-white/60">Enter로 검색 · Esc로 닫기</p>
           </div>
         </div>

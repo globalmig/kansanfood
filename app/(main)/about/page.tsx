@@ -34,7 +34,6 @@ const stats = [
 export default function AboutPage() {
   return (
     <>
-      {/* ── Hero ── */}
       <section className="relative w-full h-[60vh] min-h-[480px] overflow-hidden bg-zinc-200">
         <Image
           src="/images/main/hero_main.jpg"
@@ -44,7 +43,6 @@ export default function AboutPage() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
-
         <div className="relative z-10 flex h-full items-end pb-20 px-20">
           <div>
             <p className="text-red-400 text-sm font-semibold tracking-widest uppercase mb-4">
@@ -59,7 +57,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Our Story ── */}
       <section className="bg-white py-24 px-10">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div>
@@ -82,8 +79,6 @@ export default function AboutPage() {
               거쳐 고객의 식탁에 닿습니다.
             </p>
           </div>
-
-          {/* Stats */}
           <div className="grid grid-cols-2 gap-px bg-zinc-200 rounded-2xl overflow-hidden">
             {stats.map((s) => (
               <div key={s.label} className="bg-zinc-50 flex flex-col items-center justify-center py-14">
@@ -95,7 +90,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 핵심 강점 ── */}
       <section className="bg-zinc-50 py-24 px-10">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center">
@@ -107,11 +101,7 @@ export default function AboutPage() {
               <br />
               처음부터 끝까지 강산푸드입니다.
             </h2>
-            <p className="mt-5 text-zinc-400 text-base max-w-lg mx-auto">
-              자체 공장 운영은 단순한 선택이 아닌, 품질에 대한 약속입니다.
-            </p>
           </div>
-
           <div className="grid md:grid-cols-2 gap-6">
             {strengths.map((s) => (
               <div
@@ -129,7 +119,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 풀블리드 이미지 ── */}
       <section className="relative w-full h-[480px] overflow-hidden bg-zinc-300">
         <Image
           src="/images/main/b2b_bg.jpg"
@@ -148,15 +137,10 @@ export default function AboutPage() {
               <br />
               파트너의 힘
             </h2>
-            <p className="text-white/80 text-base max-w-md mx-auto">
-              참숯 직화 공정에서 탄생한 깊은 맛과, 직접 운영 공장이 보장하는
-              신뢰를 함께 경험해보세요.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
       <section className="bg-white py-24 px-10 text-center">
         <p className="text-red-500 text-sm font-semibold tracking-widest uppercase mb-4">
           B2B Partnership
@@ -164,10 +148,6 @@ export default function AboutPage() {
         <h2 className="text-4xl font-bold text-zinc-900 mb-6">
           강산푸드와 함께하실 준비가 되셨나요?
         </h2>
-        <p className="text-zinc-400 text-base max-w-lg mx-auto mb-10">
-          납품 단가, 최소 발주량, OEM 여부 등 궁금하신 사항을
-          편하게 문의주세요.
-        </p>
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/contact"
