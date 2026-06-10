@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { FiChevronLeft } from "react-icons/fi";
 import type { Product } from "@/lib/types";
 
 const CATEGORIES = ["직화 시리즈", "세트 상품", "기타"];
@@ -11,8 +13,10 @@ export default function EditProductPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     name: "",
     category: "직화 시리즈",
@@ -22,6 +26,7 @@ export default function EditProductPage() {
     weight: "",
     badge: "",
     is_featured: false,
+    store_url: "",
   });
 
   useEffect(() => {
@@ -49,6 +54,7 @@ export default function EditProductPage() {
           weight: p.weight ?? "",
           badge: p.badge ?? "",
           is_featured: Boolean(p.is_featured),
+          store_url: p.store_url ?? "",
         });
       })
       .catch((err: Error) => {
@@ -61,6 +67,23 @@ export default function EditProductPage() {
 
   function update(field: string, value: string | boolean) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setError("");
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/api/upload", { method: "POST", body: fd });
+    const data = await res.json();
+    if (res.ok) {
+      update("image", data.url);
+    } else {
+      setError(data.error ?? "업로드 실패");
+    }
+    setUploading(false);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -109,9 +132,7 @@ export default function EditProductPage() {
     <div className="p-8 max-w-2xl">
       <div className="flex items-center gap-3 mb-8">
         <Link href="/admin/products" className="text-zinc-400 hover:text-zinc-600 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
+          <FiChevronLeft size={20} />
         </Link>
         <h1 className="text-2xl font-bold text-zinc-900">제품 수정</h1>
       </div>
@@ -148,13 +169,32 @@ export default function EditProductPage() {
           />
         </Field>
 
-        <Field label="이미지 경로 또는 URL">
-          <input
-            type="text"
-            value={form.image}
-            onChange={(e) => update("image", e.target.value)}
-            className={inputClass}
-          />
+        <Field label="이미지">
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="bg-zinc-100 hover:bg-zinc-200 disabled:opacity-50 text-zinc-700 font-medium px-4 py-2 rounded-lg text-sm transition-colors"
+              >
+                {uploading ? "업로드 중..." : "파일 선택"}
+              </button>
+              <span className="text-xs text-zinc-400">jpg, png, webp, gif · 최대 5MB</span>
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+            {form.image && (
+              <div className="relative w-32 h-32 rounded-lg overflow-hidden border border-zinc-200">
+                <Image src={form.image} alt="미리보기" fill className="object-cover" unoptimized />
+              </div>
+            )}
+          </div>
         </Field>
 
         <Field label="태그 (쉼표로 구분)">
@@ -181,6 +221,16 @@ export default function EditProductPage() {
             value={form.badge}
             onChange={(e) => update("badge", e.target.value)}
             placeholder="BEST, NEW, 인기 등"
+            className={inputClass}
+          />
+        </Field>
+
+        <Field label="스토어 링크 (선택)">
+          <input
+            type="url"
+            value={form.store_url}
+            onChange={(e) => update("store_url", e.target.value)}
+            placeholder="https://smartstore.naver.com/..."
             className={inputClass}
           />
         </Field>
