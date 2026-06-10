@@ -28,7 +28,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
   }
 
   const { id } = await params;
-  const { name, category, description, image, tags, weight, badge, is_featured } =
+  const { name, category, description, image, tags, weight, badge, is_featured, store_url } =
     await request.json();
 
   if (!isCloudflareConfigured()) {
@@ -36,7 +36,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
   }
   try {
     await queryD1(
-      `UPDATE products SET name=?, category=?, description=?, image=?, tags=?, weight=?, badge=?, is_featured=?
+      `UPDATE products SET name=?, category=?, description=?, image=?, tags=?, weight=?, badge=?, is_featured=?, store_url=?
        WHERE id=?`,
       [
         name,
@@ -47,6 +47,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
         weight,
         badge ?? null,
         is_featured ? 1 : 0,
+        store_url ?? null,
         Number(id),
       ]
     );

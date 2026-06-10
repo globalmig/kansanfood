@@ -8,6 +8,7 @@ export interface Product {
   weight: string;
   badge: string | null;
   is_featured: number; // 0 or 1
+  store_url: string | null;
   created_at: string;
 }
 
@@ -16,6 +17,7 @@ export interface Notice {
   category: '공지' | '이벤트' | '제품';
   title: string;
   content: string;
+  image: string | null;
   is_new: number; // 0 or 1
   created_at: string;
 }

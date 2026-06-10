@@ -13,6 +13,7 @@ const FALLBACK_PRODUCTS: Product[] = PRODUCTS.map((p) => ({
   weight: p.weight,
   badge: p.badge,
   is_featured: p.badge === 'BEST' ? 1 : 0,
+  store_url: null,
   created_at: '2025-01-01T00:00:00.000Z',
 }));
 
@@ -106,6 +107,24 @@ export async function getNoticeById(id: number): Promise<Notice | null> {
   } catch (err) {
     console.warn('[data] getNoticeById 실패:', err);
     return FALLBACK_NOTICES.find((n) => n.id === id) ?? null;
+  }
+}
+
+export async function getHomepageSection(section: 'best' | 'premium_grid'): Promise<Product[]> {
+  const fallback = FALLBACK_PRODUCTS.slice(0, 4);
+  if (!isCloudflareConfigured()) return fallback;
+  try {
+    const result = await queryD1<Product>(
+      `SELECT p.* FROM homepage_sections hs
+       JOIN products p ON hs.product_id = p.id
+       WHERE hs.section = ?
+       ORDER BY hs.sort_order ASC`,
+      [section]
+    );
+    return result.results.length > 0 ? result.results : fallback;
+  } catch (err) {
+    console.warn('[data] getHomepageSection 실패:', err);
+    return fallback;
   }
 }
 

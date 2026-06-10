@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
   }
 
-  const { name, category, description, image, tags, weight, badge, is_featured } =
+  const { name, category, description, image, tags, weight, badge, is_featured, store_url } =
     await request.json();
 
   if (!name) {
@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
   }
   try {
     const result = await queryD1(
-      `INSERT INTO products (name, category, description, image, tags, weight, badge, is_featured)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO products (name, category, description, image, tags, weight, badge, is_featured, store_url)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         name,
         category ?? '직화 시리즈',
@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
         weight ?? '',
         badge ?? null,
         is_featured ? 1 : 0,
+        store_url ?? null,
       ]
     );
     return NextResponse.json({ id: result.meta.last_row_id }, { status: 201 });
