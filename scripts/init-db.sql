@@ -11,7 +11,15 @@ CREATE TABLE IF NOT EXISTS products (
   weight      TEXT,
   badge       TEXT,
   is_featured INTEGER DEFAULT 0,
+  store_url   TEXT,
   created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS homepage_sections (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  section    TEXT    NOT NULL,
+  product_id INTEGER NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS notices (
