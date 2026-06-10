@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
 
 export default function B2BSection() {
   return (
@@ -45,7 +46,7 @@ export default function B2BSection() {
               href="/contact"
               className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 transition-colors text-white font-semibold px-8 py-4 rounded-md text-sm"
             >
-              파트너십 문의하기 →
+              파트너십 문의하기 <FiArrowRight />
             </Link>
           </div>
         </div>

@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaFire, FaDrumstickBite, FaCheckCircle, FaIndustry } from "react-icons/fa";
+import { FiArrowRight } from "react-icons/fi";
 import ProductsGrid from "@/components/ProductsGrid";
 import { getProducts } from "@/lib/data";
 
 const qualities = [
-  { icon: "🔥", label: "참숯 직화" },
-  { icon: "🐔", label: "국내산 닭고기" },
-  { icon: "✅", label: "HACCP 인증" },
-  { icon: "🏭", label: "자체 공장 생산" },
+  { icon: <FaFire className="text-orange-400" />, label: "참숯 직화" },
+  { icon: <FaDrumstickBite className="text-amber-400" />, label: "국내산 닭고기" },
+  { icon: <FaCheckCircle className="text-green-400" />, label: "HACCP 인증" },
+  { icon: <FaIndustry className="text-blue-400" />, label: "자체 공장 생산" },
 ];
 
 export default async function ProductsPage() {
@@ -45,7 +47,7 @@ export default async function ProductsPage() {
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-5 md:gap-10">
           {qualities.map((q) => (
             <div key={q.label} className="flex items-center gap-2 text-white/80 text-xs md:text-sm font-medium">
-              <span className="text-sm md:text-base">{q.icon}</span>
+              <span className="text-base">{q.icon}</span>
               {q.label}
             </div>
           ))}
@@ -101,7 +103,7 @@ export default async function ProductsPage() {
               href="/about"
               className="inline-flex items-center gap-2 border border-zinc-300 text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-colors font-semibold px-6 md:px-8 py-3 rounded-md text-sm"
             >
-              회사 소개 보기 →
+              회사 소개 보기 <FiArrowRight />
             </Link>
           </div>
         </div>
@@ -119,7 +121,7 @@ export default async function ProductsPage() {
           href="/contact"
           className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 transition-colors text-white font-semibold px-8 md:px-10 py-3 md:py-4 rounded-md text-sm"
         >
-          파트너십 문의하기 →
+          파트너십 문의하기 <FiArrowRight />
         </Link>
       </section>
     </>

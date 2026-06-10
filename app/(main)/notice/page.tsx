@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FiChevronRight } from "react-icons/fi";
 import { getNotices } from "@/lib/data";
 import type { Notice } from "@/lib/types";
 
@@ -16,7 +17,7 @@ export default async function NoticePage() {
 
   return (
     <>
-      <section className="relative w-full h-[60vh] min-h-[480px] overflow-hidden bg-zinc-200">
+      <section className="relative w-full h-[60vh] min-h-80 md:min-h-120 overflow-hidden bg-zinc-200">
         <Image
           src="/images/main/hero_main.jpg"
           alt="공지사항"
@@ -24,20 +25,20 @@ export default async function NoticePage() {
           className="object-cover object-center"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
-        <div className="relative z-10 flex h-full items-end pb-20 px-20">
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/35 to-transparent" />
+        <div className="relative z-10 flex h-full items-end pb-10 md:pb-16 px-6 md:px-20">
           <div>
-            <p className="text-red-400 text-sm font-semibold tracking-widest uppercase mb-4">
+            <p className="text-red-400 text-xs md:text-sm font-semibold tracking-widest uppercase mb-3 md:mb-4">
               Notice
             </p>
-            <h1 className="text-5xl font-bold text-white leading-tight drop-shadow-md">
+            <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight drop-shadow-md">
               공지사항
             </h1>
           </div>
         </div>
       </section>
 
-      <section className="bg-white py-24 px-10">
+      <section className="bg-white py-12 md:py-24 px-5 md:px-10">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-between mb-12">
             <div>
@@ -79,18 +80,7 @@ export default async function NoticePage() {
                     <span className="hidden sm:block shrink-0 text-zinc-400 text-sm">
                       {notice.created_at.slice(0, 10)}
                     </span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      className="shrink-0 text-zinc-300 group-hover:text-red-400 group-hover:translate-x-1 transition-all duration-200"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
-                    </svg>
+                    <FiChevronRight className="shrink-0 text-zinc-300 group-hover:text-red-400 group-hover:translate-x-1 transition-all duration-200" size={16} />
                   </Link>
                 </li>
               ))}

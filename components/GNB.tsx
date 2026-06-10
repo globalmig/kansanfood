@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FiSearch } from "react-icons/fi";
 import { PRODUCTS } from "@/lib/products";
 
 const NAV_ITEMS = [
@@ -101,10 +102,7 @@ export default function GNB() {
             aria-label="검색 열기"
             className={`transition-colors ${iconColor}`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <circle cx="11" cy="11" r="8" />
-              <path strokeLinecap="round" d="M21 21l-4.35-4.35" />
-            </svg>
+            <FiSearch size={20} />
           </button>
 
           <a
@@ -174,14 +172,45 @@ export default function GNB() {
                 className="w-full rounded-full bg-white px-6 py-4 pr-14 text-base text-zinc-900 placeholder-zinc-400 shadow-xl outline-none"
               />
               <button type="submit" aria-label="검색" className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-red-500 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <circle cx="11" cy="11" r="8" />
-                  <path strokeLinecap="round" d="M21 21l-4.35-4.35" />
-                </svg>
+                <FiSearch size={20} />
               </button>
             </form>
 
-            {/* 검색 결과 */}
+            {/* 추천 상품 (검색어 없을 때) */}
+            {query.trim().length === 0 && (
+              <div className="mt-2 bg-white rounded-2xl shadow-xl overflow-hidden">
+                <p className="px-5 pt-4 pb-2 text-xs font-semibold text-zinc-400 tracking-widest uppercase">추천 상품</p>
+                <ul>
+                  {PRODUCTS.filter((p) => p.badge).map((p, i) => (
+                    <li key={p.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          closeSearch();
+                          router.push(`/products/${p.id}`);
+                        }}
+                        className={`w-full flex items-center gap-4 px-5 py-3.5 text-left hover:bg-zinc-50 transition-colors ${
+                          i !== 0 ? "border-t border-zinc-100" : ""
+                        }`}
+                      >
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-zinc-100 shrink-0">
+                          <Image src={p.src} alt={p.name} fill className="object-cover" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-zinc-900 truncate">{p.name}</p>
+                          <p className="text-xs text-zinc-400 mt-0.5">{p.category}</p>
+                        </div>
+                        <span className="ml-auto shrink-0 bg-red-500 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">
+                          {p.badge}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 검색 결과 (검색어 있을 때) */}
             {query.trim().length > 0 && (() => {
               const results = PRODUCTS.filter((p) => {
                 const q = query.trim().toLowerCase();
@@ -203,7 +232,7 @@ export default function GNB() {
                             type="button"
                             onClick={() => {
                               closeSearch();
-                              router.push(`/products?q=${encodeURIComponent(p.name)}`);
+                              router.push(`/products/${p.id}`);
                             }}
                             className={`w-full flex items-center gap-4 px-5 py-3.5 text-left hover:bg-zinc-50 transition-colors ${
                               i !== 0 ? "border-t border-zinc-100" : ""

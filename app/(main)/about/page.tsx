@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
 
 const strengths = [
   {
@@ -34,7 +35,7 @@ const stats = [
 export default function AboutPage() {
   return (
     <>
-      <section className="relative w-full h-[60vh] min-h-[480px] overflow-hidden bg-zinc-200">
+      <section className="relative w-full h-[60vh] min-h-80 md:min-h-120 overflow-hidden bg-zinc-200">
         <Image
           src="/images/main/hero_main.jpg"
           alt="강산푸드 소개"
@@ -42,13 +43,13 @@ export default function AboutPage() {
           className="object-cover object-center"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
-        <div className="relative z-10 flex h-full items-end pb-20 px-20">
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/35 to-transparent" />
+        <div className="relative z-10 flex h-full items-end pb-10 md:pb-16 px-6 md:px-20">
           <div>
-            <p className="text-red-400 text-sm font-semibold tracking-widest uppercase mb-4">
+            <p className="text-red-400 text-xs md:text-sm font-semibold tracking-widest uppercase mb-3 md:mb-4">
               About Us
             </p>
-            <h1 className="text-5xl font-bold text-white leading-tight drop-shadow-md">
+            <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight drop-shadow-md">
               직접 굽고, 직접 만들고,
               <br />
               직접 책임집니다.
@@ -57,13 +58,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-white py-24 px-10">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <section className="bg-white py-12 md:py-24 px-5 md:px-10">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           <div>
             <p className="text-red-500 text-sm font-semibold tracking-widest uppercase mb-5">
               Our Story
             </p>
-            <h2 className="text-4xl font-bold text-zinc-900 leading-tight mb-8">
+            <h2 className="text-2xl md:text-4xl font-bold text-zinc-900 leading-tight mb-6 md:mb-8">
               외식·유통 파트너와
               <br />
               <span className="text-red-500">함께 굽습니다.</span>
@@ -81,8 +82,8 @@ export default function AboutPage() {
           </div>
           <div className="grid grid-cols-2 gap-px bg-zinc-200 rounded-2xl overflow-hidden">
             {stats.map((s) => (
-              <div key={s.label} className="bg-zinc-50 flex flex-col items-center justify-center py-14">
-                <p className="text-4xl font-bold text-zinc-900 mb-2">{s.value}</p>
+              <div key={s.label} className="bg-zinc-50 flex flex-col items-center justify-center py-8 md:py-14">
+                <p className="text-2xl md:text-4xl font-bold text-zinc-900 mb-2">{s.value}</p>
                 <p className="text-zinc-400 text-sm tracking-widest">{s.label}</p>
               </div>
             ))}
@@ -90,28 +91,28 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-zinc-50 py-24 px-10">
+      <section className="bg-zinc-50 py-12 md:py-24 px-5 md:px-10">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16 text-center">
+          <div className="mb-10 md:mb-16 text-center">
             <p className="text-red-500 text-sm font-semibold tracking-widest uppercase mb-3">
               Our Strengths
             </p>
-            <h2 className="text-4xl font-bold text-zinc-900 leading-tight">
+            <h2 className="text-2xl md:text-4xl font-bold text-zinc-900 leading-tight">
               아웃소싱 없이,
               <br />
               처음부터 끝까지 강산푸드입니다.
             </h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-4 md:gap-6">
             {strengths.map((s) => (
               <div
                 key={s.number}
-                className="group border border-zinc-200 bg-white rounded-2xl p-10 hover:border-red-300 hover:shadow-md transition-all duration-300"
+                className="group border border-zinc-200 bg-white rounded-2xl p-6 md:p-10 hover:border-red-300 hover:shadow-md transition-all duration-300"
               >
-                <p className="text-red-500 text-5xl font-bold mb-6 opacity-25 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-red-500 text-4xl md:text-5xl font-bold mb-4 md:mb-6 opacity-25 group-hover:opacity-100 transition-opacity duration-300">
                   {s.number}
                 </p>
-                <h3 className="text-zinc-900 text-xl font-bold mb-4">{s.title}</h3>
+                <h3 className="text-zinc-900 text-lg md:text-xl font-bold mb-3 md:mb-4">{s.title}</h3>
                 <p className="text-zinc-500 text-sm leading-relaxed">{s.desc}</p>
               </div>
             ))}
@@ -119,7 +120,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="relative w-full h-[480px] overflow-hidden bg-zinc-300">
+      <section className="relative w-full h-65 md:h-120 overflow-hidden bg-zinc-300">
         <Image
           src="/images/main/b2b_bg.jpg"
           alt="강산푸드 생산 현장"
@@ -127,12 +128,12 @@ export default function AboutPage() {
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 flex h-full items-center justify-center text-center px-10">
+        <div className="relative z-10 flex h-full items-center justify-center text-center px-5 md:px-10">
           <div>
             <p className="text-red-400 text-sm font-semibold tracking-widest uppercase mb-4">
               Since 2017
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6 drop-shadow-md">
+            <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6 drop-shadow-md">
               직화의 맛,
               <br />
               파트너의 힘
@@ -141,23 +142,23 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-white py-24 px-10 text-center">
+      <section className="bg-white py-12 md:py-24 px-5 md:px-10 text-center">
         <p className="text-red-500 text-sm font-semibold tracking-widest uppercase mb-4">
           B2B Partnership
         </p>
-        <h2 className="text-4xl font-bold text-zinc-900 mb-6">
+        <h2 className="text-2xl md:text-4xl font-bold text-zinc-900 mb-6">
           강산푸드와 함께하실 준비가 되셨나요?
         </h2>
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 transition-colors text-white font-semibold px-10 py-4 rounded-md text-sm"
+            className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 transition-colors text-white font-semibold px-8 md:px-10 py-3 md:py-4 rounded-md text-sm"
           >
-            파트너십 문의하기 →
+            파트너십 문의하기 <FiArrowRight />
           </Link>
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 border border-zinc-300 text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-colors font-semibold px-10 py-4 rounded-md text-sm"
+            className="inline-flex items-center gap-2 border border-zinc-300 text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-colors font-semibold px-8 md:px-10 py-3 md:py-4 rounded-md text-sm"
           >
             제품 둘러보기
           </Link>

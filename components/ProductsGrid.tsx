@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { FiArrowRight } from "react-icons/fi";
 import type { Product } from "@/lib/types";
 
 interface ProductView {
@@ -71,7 +72,7 @@ export default function ProductsGrid({ products }: { products: Product[] }) {
               href={`/products/${product.id}`}
               className="group bg-white rounded-2xl overflow-hidden border border-zinc-100 hover:shadow-lg transition-shadow duration-300"
             >
-              <div className="relative aspect-4/3 overflow-hidden bg-zinc-100">
+              <div className="relative aspect-4/3 overflow-hidden bg-zinc-100 rounded-t-xl">
                 <Image
                   src={product.src}
                   alt={product.name}
@@ -109,7 +110,7 @@ export default function ProductsGrid({ products }: { products: Product[] }) {
                     <span className="text-zinc-400 text-xs">중량 {product.weight}</span>
                   )}
                   <span className="text-xs font-semibold text-zinc-900 group-hover:text-red-500 transition-colors ml-auto">
-                    자세히 보기 →
+                    자세히 보기 <FiArrowRight />
                   </span>
                 </div>
               </div>

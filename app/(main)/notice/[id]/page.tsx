@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
+import { FiChevronUp, FiChevronDown } from "react-icons/fi";
 import { getNoticeById, getAdjacentNotices } from "@/lib/data";
 import type { Notice } from "@/lib/types";
 
@@ -26,7 +28,7 @@ export default async function NoticeDetailPage({
     <>
       <div className="h-24 bg-zinc-900" />
 
-      <section className="bg-white py-16 px-10">
+      <section className="bg-white py-10 md:py-16 px-5 md:px-10">
         <div className="max-w-3xl mx-auto">
           <nav className="flex items-center gap-2 text-sm text-zinc-400 mb-10">
             <Link href="/" className="hover:text-zinc-900 transition-colors">HOME</Link>
@@ -51,6 +53,11 @@ export default async function NoticeDetailPage({
           </div>
 
           <div className="py-12 min-h-[300px]">
+            {notice.image && (
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-10">
+                <Image src={notice.image} alt={notice.title} fill className="object-cover" />
+              </div>
+            )}
             <div className="text-zinc-600 text-base leading-loose whitespace-pre-line">
               {notice.content}
             </div>
@@ -63,9 +70,7 @@ export default async function NoticeDetailPage({
                 className="group flex items-center gap-4 py-5 hover:bg-zinc-50 px-4 -mx-4 transition-colors"
               >
                 <span className="shrink-0 flex items-center gap-1 text-xs text-zinc-400 font-medium w-20">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
-                  </svg>
+                  <FiChevronUp size={12} />
                   다음글
                 </span>
                 <span className="text-zinc-700 text-sm group-hover:text-zinc-900 truncate">
@@ -79,9 +84,7 @@ export default async function NoticeDetailPage({
                 className="group flex items-center gap-4 py-5 hover:bg-zinc-50 px-4 -mx-4 transition-colors"
               >
                 <span className="shrink-0 flex items-center gap-1 text-xs text-zinc-400 font-medium w-20">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
+                  <FiChevronDown size={12} />
                   이전글
                 </span>
                 <span className="text-zinc-700 text-sm group-hover:text-zinc-900 truncate">

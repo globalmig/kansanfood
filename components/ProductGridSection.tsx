@@ -1,48 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
+import type { Product } from "@/lib/types";
 
-const products = [
-  {
-    id: 1,
-    badge: "캠핑용",
-    badgeClass: "bg-orange-500",
-    src: "/images/main/item_01.jpg",
-    name: "오리지널 직화",
-    sub: "오리지널 직화",
-    price: "28,000",
-  },
-  {
-    id: 2,
-    badge: "대용량",
-    badgeClass: "bg-red-500",
-    src: "/images/main/item_02.jpg",
-    name: "고추장 직화",
-    sub: "고추장",
-    price: "29,000",
-  },
-  {
-    id: 3,
-    badge: "마트 인기 상품",
-    badgeClass: "bg-green-500",
-    src: "/images/main/item_03.jpg",
-    name: "간장 마늘",
-    sub: "간장마늘",
-    price: "29,000",
-  },
-  {
-    id: 4,
-    badge: "홈파티/가족모임",
-    badgeClass: "bg-green-800",
-    src: "/images/main/item_04.jpg",
-    name: "홈파티 세트",
-    sub: "6종 30입",
-    price: "128,000",
-  },
+const BADGE_COLORS = [
+  "bg-orange-500",
+  "bg-red-500",
+  "bg-green-500",
+  "bg-green-800",
+  "bg-blue-500",
+  "bg-purple-500",
+  "bg-amber-500",
+  "bg-teal-500",
 ];
 
-const grid = [...products, ...products];
-
-export default function ProductGridSection() {
+export default function ProductGridSection({ products }: { products: Product[] }) {
   return (
     <section className="bg-[#F5F0E8] py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-5 md:px-10">
@@ -50,41 +22,46 @@ export default function ProductGridSection() {
           <div>
             <p className="flex items-center gap-2 text-zinc-500 text-xs font-medium mb-2">
               <span className="block w-6 h-px bg-zinc-500" />
-              전문점 퀄리티를 집에서도 간편하게 즐겨보세요.
+              대량 납품부터 맞춤 제조까지, 신뢰할 수 있는 B2B 파트너
             </p>
             <h2 className="text-2xl md:text-4xl font-extrabold text-zinc-900">
-              언제 어디서나 즐기는 프리미엄 닭꼬치
+              안정적인 공급, 검증된 품질의 강산푸드
             </h2>
           </div>
           <Link
             href="/products"
             className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors shrink-0"
           >
-            전체 보기 →
+            전체 보기 <FiArrowRight />
           </Link>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
-          {grid.map((product, index) => (
-            <Link href={`/products/${product.id}`} key={index} className="group cursor-pointer">
-              <div className="relative aspect-square overflow-hidden">
-                <Image
-                  src={product.src}
-                  alt={product.name}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+          {products.map((product, index) => (
+            <Link href={`/products/${product.id}`} key={product.id} className="group cursor-pointer">
+              <div className="relative aspect-square overflow-hidden bg-zinc-100 rounded-lg">
+                {product.image ? (
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xs text-zinc-400">이미지 준비중</span>
+                  </div>
+                )}
                 <span
-                  className={`absolute top-3 left-3 ${product.badgeClass} text-white text-xs font-medium px-2 py-1 rounded`}
+                  className={`absolute top-3 left-3 ${BADGE_COLORS[index % BADGE_COLORS.length]} text-white text-xs font-medium px-2 py-1 rounded`}
                 >
-                  {product.badge}
+                  {product.badge ?? product.category}
                 </span>
               </div>
               <div className="mt-3">
                 <p className="font-bold text-zinc-900 text-base">{product.name}</p>
-                <p className="text-zinc-400 text-xs mt-0.5">{product.sub}</p>
-                <p className="font-bold text-zinc-900 text-sm mt-2">₩{product.price}</p>
+                <p className="text-zinc-400 text-xs mt-0.5">{product.category}</p>
               </div>
             </Link>
           ))}

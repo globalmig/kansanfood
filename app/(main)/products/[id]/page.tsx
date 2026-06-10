@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FiArrowRight } from "react-icons/fi";
 import { getProductById, getProducts } from "@/lib/data";
 
 export async function generateStaticParams() {
@@ -89,12 +90,24 @@ export default async function ProductDetailPage({
                 </div>
               )}
 
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 transition-colors text-white font-semibold px-8 py-4 rounded-md text-sm"
-              >
-                B2B 납품 문의하기 →
-              </Link>
+              <div className="flex flex-col gap-3">
+                {product.store_url && (
+                  <a
+                    href={product.store_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-[#03C75A] hover:bg-[#02b050] transition-colors text-white font-semibold px-8 py-4 rounded-md text-sm"
+                  >
+                    네이버 스마트스토어에서 구매 <FiArrowRight />
+                  </a>
+                )}
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 transition-colors text-white font-semibold px-8 py-4 rounded-md text-sm"
+                >
+                  B2B 납품 문의하기 <FiArrowRight />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
