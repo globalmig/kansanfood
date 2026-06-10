@@ -25,12 +25,12 @@ export async function PUT(request: NextRequest, { params }: Params) {
   }
 
   const { id } = await params;
-  const { category, title, content, is_new } = await request.json();
+  const { category, title, content, image, is_new } = await request.json();
 
   try {
     await queryD1(
-      'UPDATE notices SET category=?, title=?, content=?, is_new=? WHERE id=?',
-      [category, title, content, is_new ? 1 : 0, Number(id)]
+      'UPDATE notices SET category=?, title=?, content=?, image=?, is_new=? WHERE id=?',
+      [category, title, content, image ?? null, is_new ? 1 : 0, Number(id)]
     );
     return NextResponse.json({ success: true });
   } catch (err) {

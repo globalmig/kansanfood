@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { FiChevronLeft, FiUpload, FiX } from "react-icons/fi";
 import type { Notice } from "@/lib/types";
 
 const CATEGORIES = ["공지", "이벤트", "제품"] as const;
@@ -17,8 +19,11 @@ export default function EditNoticePage() {
     category: "공지" as (typeof CATEGORIES)[number],
     title: "",
     content: "",
+    image: "",
     is_new: false,
   });
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch(`/api/notices/${params.id}`)
@@ -34,6 +39,7 @@ export default function EditNoticePage() {
           category: n.category,
           title: n.title,
           content: n.content ?? "",
+          image: n.image ?? "",
           is_new: Boolean(n.is_new),
         });
       })
@@ -47,6 +53,24 @@ export default function EditNoticePage() {
 
   function update(field: string, value: string | boolean) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/api/upload?folder=notices", { method: "POST", body: fd });
+    if (res.ok) {
+      const { url } = await res.json();
+      update("image", url);
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setError(data.error ?? "이미지 업로드 실패");
+    }
+    setUploading(false);
+    e.target.value = "";
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -90,9 +114,7 @@ export default function EditNoticePage() {
     <div className="p-8 max-w-2xl">
       <div className="flex items-center gap-3 mb-8">
         <Link href="/admin/notices" className="text-zinc-400 hover:text-zinc-600 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
+          <FiChevronLeft size={20} />
         </Link>
         <h1 className="text-2xl font-bold text-zinc-900">공지사항 수정</h1>
       </div>
@@ -129,6 +151,39 @@ export default function EditNoticePage() {
           />
         </Field>
 
+        <Field label="이미지 (선택)">
+          {form.image ? (
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-zinc-100">
+              <Image src={form.image} alt="공지 이미지" fill className="object-cover" />
+              <button
+                type="button"
+                onClick={() => update("image", "")}
+                className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 transition-colors"
+              >
+                <FiX size={14} />
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              disabled={uploading}
+              className="w-full flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-200 hover:border-zinc-400 rounded-lg py-10 text-zinc-400 hover:text-zinc-600 transition-colors disabled:opacity-50"
+            >
+              <FiUpload size={22} />
+              <span className="text-sm font-medium">{uploading ? "업로드 중..." : "이미지 업로드"}</span>
+              <span className="text-xs text-zinc-300">JPG, PNG, WebP · 최대 5MB</span>
+            </button>
+          )}
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            className="hidden"
+            onChange={handleImageUpload}
+          />
+        </Field>
+
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -147,7 +202,7 @@ export default function EditNoticePage() {
         <div className="flex items-center gap-3 pt-2">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || uploading}
             className="bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white font-semibold px-8 py-2.5 rounded-lg text-sm transition-colors"
           >
             {saving ? "저장 중..." : "저장"}

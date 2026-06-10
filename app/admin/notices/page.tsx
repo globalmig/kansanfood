@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { FiPlus, FiArrowRight } from "react-icons/fi";
 import type { Notice } from "@/lib/types";
 
 const categoryColor: Record<string, string> = {
@@ -56,9 +57,7 @@ export default function AdminNoticesPage() {
           href="/admin/notices/new"
           className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-          </svg>
+          <FiPlus size={16} />
           공지사항 추가
         </Link>
       </div>
@@ -75,7 +74,7 @@ export default function AdminNoticesPage() {
         <div className="text-center py-20 text-zinc-400">
           <p className="mb-4">등록된 공지사항이 없습니다.</p>
           <Link href="/admin/notices/new" className="text-red-500 font-semibold hover:underline">
-            첫 공지사항 작성하기 →
+            첫 공지사항 작성하기 <FiArrowRight />
           </Link>
         </div>
       ) : (

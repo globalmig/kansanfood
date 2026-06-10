@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
   }
 
-  const { category, title, content, is_new } = await request.json();
+  const { category, title, content, image, is_new } = await request.json();
 
   if (!title) {
     return NextResponse.json({ error: '제목은 필수입니다.' }, { status: 400 });
@@ -32,8 +32,8 @@ export async function POST(request: NextRequest) {
   }
   try {
     const result = await queryD1(
-      'INSERT INTO notices (category, title, content, is_new) VALUES (?, ?, ?, ?)',
-      [category ?? '공지', title, content ?? '', is_new ? 1 : 0]
+      'INSERT INTO notices (category, title, content, image, is_new) VALUES (?, ?, ?, ?, ?)',
+      [category ?? '공지', title, content ?? '', image ?? null, is_new ? 1 : 0]
     );
     return NextResponse.json({ id: result.meta.last_row_id }, { status: 201 });
   } catch (err) {
