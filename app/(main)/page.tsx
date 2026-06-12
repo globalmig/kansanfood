@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import HeroSection from "@/components/HeroSection";
 import BestSection from "@/components/BestSection";
 import B2BSection from "@/components/B2BSection";

@@ -1,13 +1,10 @@
+export const dynamic = 'force-dynamic';
+
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FiArrowRight } from "react-icons/fi";
-import { getProductById, getProducts } from "@/lib/data";
-
-export async function generateStaticParams() {
-  const products = await getProducts();
-  return products.map((p) => ({ id: String(p.id) }));
-}
+import { getProductById } from "@/lib/data";
 
 export default async function ProductDetailPage({
   params,
