@@ -8,7 +8,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: '비밀번호가 올바르지 않습니다.' }, { status: 401 });
   }
 
-  const token = await createToken();
+  let token: string;
+  try {
+    token = await createToken();
+  } catch {
+    return NextResponse.json({ error: '서버 설정 오류' }, { status: 500 });
+  }
   const response = NextResponse.json({ success: true });
 
   response.cookies.set(COOKIE_NAME, token, {
