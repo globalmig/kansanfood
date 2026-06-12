@@ -1,10 +1,29 @@
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from 'next';
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FiArrowRight } from "react-icons/fi";
 import { getProductById } from "@/lib/data";
+
+type Props = { params: Promise<{ id: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProductById(Number(id));
+  if (!product) return {};
+  return {
+    title: product.name,
+    description: product.description ?? undefined,
+    openGraph: {
+      title: product.name,
+      description: product.description ?? undefined,
+      images: product.image ? [{ url: product.image, alt: product.name }] : [],
+    },
+    alternates: { canonical: `https://kansanfood.com/products/${id}` },
+  };
+}
 
 export default async function ProductDetailPage({
   params,
@@ -22,8 +41,27 @@ export default async function ProductDetailPage({
     tags = product.tags ? product.tags.split(",").map((t) => t.trim()) : [];
   }
 
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.image ? `https://kansanfood.com${product.image}` : undefined,
+    brand: { '@type': 'Brand', name: '강산푸드' },
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      priceCurrency: 'KRW',
+      seller: { '@type': 'Organization', name: '강산푸드' },
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
       <div className="h-20 bg-zinc-900" />
 
       <section className="bg-white py-12 md:py-20">

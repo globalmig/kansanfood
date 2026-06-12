@@ -1,6 +1,13 @@
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from 'next';
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: '제품',
+  description: '강산푸드의 직화 시리즈 닭꼬치 제품을 소개합니다. 오리지널·고추장·간장마늘·와사비 등 다양한 맛의 프리미엄 닭꼬치를 만나보세요.',
+  alternates: { canonical: 'https://kansanfood.com/products' },
+};
 import Link from "next/link";
 import { FaFire, FaDrumstickBite, FaCheckCircle, FaIndustry } from "react-icons/fa";
 import { FiArrowRight } from "react-icons/fi";

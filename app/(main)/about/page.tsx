@@ -1,6 +1,13 @@
+import type { Metadata } from 'next';
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
+
+export const metadata: Metadata = {
+  title: '회사 소개',
+  description: '강산푸드는 직접 공장을 운영하며 국내산 닭고기를 참숯 직화 방식으로 가공하는 닭꼬치 전문 기업입니다. HACCP 인증, 직화 공정, B2B 납품 경쟁력을 갖추고 있습니다.',
+  alternates: { canonical: 'https://kansanfood.com/about' },
+};
 
 const strengths = [
   {

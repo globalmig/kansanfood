@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from 'next';
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -8,6 +9,25 @@ import { getNoticeById, getAdjacentNotices } from "@/lib/data";
 import type { Notice } from "@/lib/types";
 
 type Category = Notice["category"];
+
+type Props = { params: Promise<{ id: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const notice = await getNoticeById(Number(id));
+  if (!notice) return {};
+  const description = notice.content.slice(0, 150).replace(/\n/g, ' ');
+  return {
+    title: notice.title,
+    description,
+    openGraph: {
+      title: notice.title,
+      description,
+      images: notice.image ? [{ url: notice.image, alt: notice.title }] : [],
+    },
+    alternates: { canonical: `https://kansanfood.com/notice/${id}` },
+  };
+}
 
 const categoryStyle: Record<Category, string> = {
   공지: "bg-zinc-100 text-zinc-600",
@@ -26,8 +46,30 @@ export default async function NoticeDetailPage({
 
   const { prev, next } = await getAdjacentNotices(notice.id);
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: notice.title,
+    description: notice.content.slice(0, 150).replace(/\n/g, ' '),
+    datePublished: notice.created_at,
+    image: notice.image ? [`https://kansanfood.com${notice.image}`] : undefined,
+    publisher: {
+      '@type': 'Organization',
+      name: '강산푸드',
+      url: 'https://kansanfood.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://kansanfood.com/images/common/logo_white.png',
+      },
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <div className="h-24 bg-zinc-900" />
 
       <section className="bg-white py-10 md:py-16 px-5 md:px-10">

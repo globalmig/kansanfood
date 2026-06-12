@@ -1,10 +1,17 @@
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from 'next';
 import Image from "next/image";
 import Link from "next/link";
 import { FiChevronRight } from "react-icons/fi";
 import { getNotices } from "@/lib/data";
 import type { Notice } from "@/lib/types";
+
+export const metadata: Metadata = {
+  title: '공지사항',
+  description: '강산푸드의 최신 소식, 신제품 출시, 이벤트 및 공지사항을 확인하세요.',
+  alternates: { canonical: 'https://kansanfood.com/notice' },
+};
 
 type Category = Notice["category"];
 

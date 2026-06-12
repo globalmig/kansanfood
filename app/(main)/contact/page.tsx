@@ -1,4 +1,11 @@
+import type { Metadata } from 'next';
 import { FiPhone, FiMail } from "react-icons/fi";
+
+export const metadata: Metadata = {
+  title: '문의하기',
+  description: 'B2B 납품 문의 및 제품 상담은 이메일 또는 전화로 연락해주세요. 편의점·급식·외식업체 파트너사를 모집합니다.',
+  alternates: { canonical: 'https://kansanfood.com/contact' },
+};
 
 const contacts = [
   {
